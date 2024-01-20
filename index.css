@@ -1,3 +1,19 @@
 #heading1 {
   color: red;
 }
+
+#searchBarContainer {
+  height: 40px;
+  width: 400px;
+  justify-content: center;
+  display: flex;
+}
+
+#container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+#searchbar {
+  width: "100%";
+}
