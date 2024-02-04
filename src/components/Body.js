@@ -51,14 +51,14 @@ const Body = () => {
           Top Rated Restaurant
         </button>
       </div> */}
-      <div className="search-bar-container">
+      <div className="m-4 p-4">
         <input
-          className="search-container"
+          className="border border-solid border-black"
           value={searchText}
           onChange={(event) => setSearchText(event.target.value)}
         ></input>
         <button
-          className="search-btn"
+          className="px-4 py-2 bg-green-100 m-4 rounded-lg"
           onClick={() => {
             const searchList =
               searchText != ""
@@ -74,7 +74,7 @@ const Body = () => {
           Search
         </button>
       </div>
-      <div className="res-card-container">
+      <div className="flex flex-wrap">
         {filteredRestaurantList.map((restaurantData) => {
           return (
             <Link
