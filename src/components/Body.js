@@ -1,15 +1,16 @@
-import { useEffect, useState } from "react";
-import resList from "../utils/mockData";
-import RestaurantCard from "./RestaurantCard";
+import { useContext, useEffect, useState } from "react";
+import RestaurantCard, { withPromotedWrapper } from "./RestaurantCard";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
+import UserContext from "../utils/UserContext";
 
 const Body = () => {
   const [restaurantList, setRestrauntList] = useState([]);
   const [filteredRestaurantList, setFilteredRestrauntList] = useState([]);
   const [searchText, setSearchText] = useState("");
   const isOnline = useOnlineStatus();
+  const { setCurrenUser, loggedInUser } = useContext(UserContext);
 
   useEffect(() => {
     fetchData();
@@ -26,15 +27,17 @@ const Body = () => {
     setRestrauntList(resListData);
     setFilteredRestrauntList(resListData);
   };
-  if (restaurantList.length === 0) {
-    return <Shimmer />;
-  }
+
   if (!isOnline) {
     return (
       <h1>
         Looks like you are offline, Please check your internet connection.
       </h1>
     );
+  }
+  const PromotedRestaurantCard = withPromotedWrapper(RestaurantCard);
+  if (restaurantList.length === 0) {
+    return <Shimmer />;
   }
   return (
     <div className="body-container">
@@ -73,6 +76,11 @@ const Body = () => {
         >
           Search
         </button>
+        <input
+          className="border border-solid border-black"
+          value={loggedInUser}
+          onChange={(event) => setCurrenUser(event.target.value)}
+        ></input>
       </div>
       <div className="flex flex-wrap">
         {filteredRestaurantList.map((restaurantData) => {
@@ -82,7 +90,11 @@ const Body = () => {
               style={{ textDecoration: "none", color: "black" }}
               key={restaurantData.info.id}
             >
-              <RestaurantCard resData={restaurantData.info} />
+              {restaurantData?.info?.veg ? (
+                <PromotedRestaurantCard resData={restaurantData.info} />
+              ) : (
+                <RestaurantCard resData={restaurantData.info} />
+              )}
             </Link>
           );
         })}

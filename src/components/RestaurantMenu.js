@@ -2,35 +2,43 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Shimmer from "./Shimmer";
 import useRestaurantMenu from "../utils/useRestaurantMenu";
+import RestaurantCategory from "./RestaurantCategory";
 
 const RestaurantMenu = () => {
   const { id } = useParams();
   const resInfo = useRestaurantMenu(id);
+  const [showIndex, setShowIndex] = useState(null);
 
   if (resInfo === null) {
     return <Shimmer />;
   }
-  const { name, costForTwoMessage } = resInfo?.cards[0]?.card?.card?.info;
-  const resMenuItems =
-    resInfo?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards[2].card?.card
-      ?.itemCards;
-  console.log("res menu item", resMenuItems);
-  return (
-    <div className="menu">
-      <h1>{name}</h1>
-      <h2>{costForTwoMessage}</h2>
+  const { name, cuisines } = resInfo?.cards[0]?.card?.card?.info;
 
-      <ul>
-        {resMenuItems?.map((resItem) => {
-          return (
-            <li>
-              {resItem?.card?.info?.name} :{" "}
-              {resItem?.card?.info?.price / 100 ||
-                resItem?.card?.info?.defaultPrice / 100}
-            </li>
-          );
-        })}
-      </ul>
+  const resItemCategories =
+    resInfo?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards;
+  const menuItemCategory = resItemCategories.filter(
+    (item) =>
+      item.card.card["@type"] ===
+      "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
+  );
+  console.log("res menu item", menuItemCategory);
+  return (
+    <div className="text-center">
+      <h1 className="font-bold text-2xl my-6">{name}</h1>
+      <p className="font-bold text-lg">{cuisines.join(", ")}</p>
+
+      {menuItemCategory.map((menuItem, index) => {
+        return (
+          // Controlled component
+          <RestaurantCategory
+            index={index}
+            key={menuItem?.card?.card?.title}
+            resCategoryData={menuItem}
+            showItem={index === showIndex ? true : false}
+            setShowIndex={() => setShowIndex(index)}
+          />
+        );
+      })}
     </div>
   );
 };

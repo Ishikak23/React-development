@@ -16,4 +16,17 @@ const RestaurantCard = ({ resData, key }) => {
   );
 };
 
+export const withPromotedWrapper = (RestaurantCard) => {
+  return (props) => {
+    return (
+      <div>
+        <label className="absolute bg-green-800 text-white m-1 p-2 rounded-md">
+          Veg
+        </label>
+        <RestaurantCard {...props} />
+      </div>
+    );
+  };
+};
+
 export default RestaurantCard;
