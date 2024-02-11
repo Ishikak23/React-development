@@ -40,7 +40,7 @@ const Body = () => {
     return <Shimmer />;
   }
   return (
-    <div className="body-container">
+    <div className="m-1">
       {/* <div className="filter-container">
         <button
           className="filter-btn"
@@ -56,7 +56,8 @@ const Body = () => {
       </div> */}
       <div className="m-4 p-4">
         <input
-          className="border border-solid border-black"
+          data-testid={"search"}
+          className="border border-solid border-black p-1 rounded-md"
           value={searchText}
           onChange={(event) => setSearchText(event.target.value)}
         ></input>
@@ -77,7 +78,7 @@ const Body = () => {
           Search
         </button>
         <input
-          className="border border-solid border-black"
+          className="border border-solid border-black p-1 rounded-md"
           value={loggedInUser}
           onChange={(event) => setCurrenUser(event.target.value)}
         ></input>

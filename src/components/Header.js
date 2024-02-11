@@ -1,14 +1,18 @@
 import { LOGO_URL } from "../utils/constant";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import UserContext from "../utils/UserContext";
 import { useSelector } from "react-redux";
 
 const Header = () => {
   const isOnline = useOnlineStatus();
+  const [loginText, setLoginText] = useState("Login");
   const data = useContext(UserContext);
   const { items } = useSelector((store) => store.cart);
+  const handleLoginclick = () => {
+    setLoginText(loginText === "Login" ? "Logout" : "Login");
+  };
   return (
     <div className="flex justify-between shadow-lg">
       <div className="flex items-center">
@@ -31,6 +35,11 @@ const Header = () => {
           </li>
           <li className="px-4">
             <Link to="/cart">Cart ({items.length})</Link>
+          </li>
+          <li>
+            <button className="px-4 w-[82px]" onClick={handleLoginclick}>
+              {loginText}
+            </button>
           </li>
           <li className="px-4">User : {data?.loggedInUser}</li>
         </ul>

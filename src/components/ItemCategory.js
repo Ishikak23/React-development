@@ -15,7 +15,10 @@ const ItemCategory = ({ itemList }) => {
         const { name, description, imageId, price, defaultPrice } =
           item?.card?.info;
         return (
-          <div className="flex flex-row justify-between m-2 p-2 order-gray-200 border-b-2 text-left">
+          <div
+            className="flex flex-row justify-between m-2 p-2 order-gray-200 border-b-2 text-left"
+            data-testid="resList"
+          >
             <div className="flex p-2">
               <label>{name}</label>
               <p> - {price / 100 || defaultPrice / 100}</p>

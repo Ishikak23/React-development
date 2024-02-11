@@ -6,7 +6,6 @@ import {
   createBrowserRouter,
   RouterProvider,
   Outlet,
-  useParams,
 } from "react-router-dom";
 import About from "./components/About";
 import Contact from "./components/Contact";
